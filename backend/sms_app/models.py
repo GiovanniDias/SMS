@@ -8,6 +8,9 @@ class Course(models.Model):
         verbose_name='Data de registro', auto_now_add=True)
     hourly_load = models.IntegerField(verbose_name='Carga Horária')
 
+    def __str__(self):
+        return self.name
+
     class Meta:
         ordering = ['name']
         verbose_name = 'Curso'
@@ -29,6 +32,9 @@ class Student(models.Model):
         verbose_name='Complemento', max_length=100, blank=True)
     course = models.ForeignKey(
         Course, verbose_name='Curso', on_delete=models.CASCADE, related_name='course')
+
+    def __str__(self):
+        return self.name
 
     class Meta:
         ordering = ['name']
