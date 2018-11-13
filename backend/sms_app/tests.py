@@ -1,5 +1,6 @@
 from django.test import TestCase, Client
 from rest_framework import status
+from rest_framework.test import APIRequestFactory
 from .models import Student, Course
 from .serializers import CourseSerializer
 
@@ -40,16 +41,18 @@ class CourseApiTest(TestCase):
         self.assertEqual(response.data, course)
 
     def test_update(self):
-        new_payload = {'hourly_load': 1920}
+        self.valid_payload['hourly_load'] = 1920
         route = '/api/courses/' + str(self.course1.id) + '/'
 
-        response = self.client.put(route, new_payload)
-
-        print(response)
+        response = self.client.put(
+            route, self.valid_payload, content_type='application/json')
 
         self.assertEqual(response.data.get('hourly_load'),
-                         new_payload.get('hourly_load'))
+                         self.valid_payload.get('hourly_load'))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_delete(self):
-        pass
+        route = '/api/courses/' + str(self.course1.id) + '/'
+        response = self.client.delete(route)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
