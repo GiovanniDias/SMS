@@ -1,21 +1,24 @@
 <template>
   <div id="app">
-    <my-toolbar></my-toolbar>
-    <router-view/>
+    <v-app>
+      <my-toolbar app></my-toolbar>
+      <router-view/>
+      <v-footer app fixed dark>Copyright 2018</v-footer>
+    </v-app>
   </div>
 </template>
 
 <script>
-import myToolbar from './components/Toolbar'
+import myToolbar from "./components/Toolbar";
 export default {
-  name: 'App',
-  components: {myToolbar},
-}
+  name: "App",
+  components: { myToolbar }
+};
 </script>
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
