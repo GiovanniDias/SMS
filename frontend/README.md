@@ -1,6 +1,6 @@
 # frontend
 
-> FrontEnd Project to Student Management System
+> FrontEnd Project for Student Management System
 
 ## Build Setup
 

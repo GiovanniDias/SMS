@@ -1,7 +1,7 @@
 {
   "name": "frontend",
   "version": "1.0.0",
-  "description": "FrontEnd Project to Student Management System",
+  "description": "FrontEnd Project for Student Management System",
   "author": "Giovanni Oliveira",
   "private": true,
   "scripts": {
@@ -13,6 +13,7 @@
     "axios": "^0.18.0",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
+    "vuelidate": "^0.7.4",
     "vuetify": "^1.3.7"
   },
   "devDependencies": {
