@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Course(models.Model):
-    code = models.CharField(verbose_name='Código', max_length=10)
+    code = models.CharField(verbose_name='Código', max_length=10, unique=True)
     name = models.CharField(verbose_name='Nome', max_length=50)
     register_date = models.DateField(
         verbose_name='Data de registro', auto_now_add=True)
@@ -18,16 +18,16 @@ class Course(models.Model):
 
 
 class Student(models.Model):
-    code = models.CharField(verbose_name='Código', max_length=10)
+    code = models.CharField(verbose_name='Código', max_length=10, unique=True)
     name = models.CharField(verbose_name='Nome', max_length=100)
-    cpf = models.CharField(verbose_name='CPF', max_length=11)
+    cpf = models.CharField(verbose_name='CPF', max_length=11, unique=True)
     email = models.EmailField(verbose_name='E-mail', null=True)
     phone = models.CharField(
         verbose_name='Telefone', max_length=15, blank=True)
     cep = models.CharField(verbose_name='CEP', max_length=8)
     address = models.TextField(
         verbose_name='Endereço Principal', max_length=100)
-    number = models.IntegerField(verbose_name='Número')
+    number = models.CharField(verbose_name='Número', max_length=5)
     complement = models.TextField(
         verbose_name='Complemento', max_length=100, blank=True)
     course = models.ForeignKey(
