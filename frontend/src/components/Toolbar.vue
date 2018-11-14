@@ -11,9 +11,7 @@
 </template>
 
 <script>
-import myMenu from "./Menu";
 export default {
-  components: { myMenu },
   data() {
     return {
       outfit1: false,
