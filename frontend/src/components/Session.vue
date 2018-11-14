@@ -10,6 +10,7 @@
 
 <script>
 import CrudList from "./CrudList";
+import axios from 'axios';
 export default {
   name: "Session",
   components: { CrudList },
@@ -38,7 +39,7 @@ export default {
         { text: 'Data de Cadastro', value: 'register_date' },
         { text: 'Ações', value: 'actions', sortable: false, align: 'left' }
       ];
-
+      this.getCourses();
     }
     else if(route == 'Students'){
       this.session = 'Alunos';
@@ -49,6 +50,20 @@ export default {
         { text: 'Curso', value: 'course' },
         { text: 'Ações', value: 'actions', sortable: false, align: 'left' }
       ];
+      this.getStudents();
+    }
+  },
+  methods: {
+    getCourses(){
+      axios({
+        method:'get',
+        url:'http://localhost:8000/api/courses/',
+      }).then(function(response){
+        console.log(response.data);
+      })
+    },
+    getStudents(){
+
     }
   }
 };
