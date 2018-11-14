@@ -1,20 +1,5 @@
 <template>
-  <div v-if="outfit1">
-    <v-toolbar dense dark>
-      <v-btn flat :to="{ name: 'Home' }">Sistema de Gerenciamento de Alunos</v-btn>
-      <v-spacer></v-spacer>
-      <v-toolbar-items>
-        <my-menu
-          v-for="(title, i) in menu_titles" :key="i"
-          :menuTitle="title"
-        ></my-menu>
-
-        <div style="width:50px"></div>
-        <v-btn flat>Exportar</v-btn>
-      </v-toolbar-items>
-    </v-toolbar>
-  </div>
-  <div v-else>
+  <div>
     <v-toolbar dark>
       <v-spacer></v-spacer>
       <v-toolbar-title class="white--text">
@@ -45,6 +30,6 @@ export default {
 
 <style>
 .nolink {
-  text-decoration: none;
+  text-decoration-color: white;
 }
 </style>
