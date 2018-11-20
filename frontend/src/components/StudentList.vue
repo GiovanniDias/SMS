@@ -8,7 +8,9 @@
       <td class="text-xs-left"> {{ props.item.code }} </td>
       <td class="text-xs-left"> {{ props.item.name }} </td>
       <td class="text-xs-left"> {{ props.item.cpf }} </td>
-      <td class="text-xs-left"> {{ props.item.course }} </td>
+      <td class="text-xs-left"> {{ props.item.email }} </td>
+      <td class="text-xs-left"> {{ props.item.phone }} </td>
+      <td class="text-xs-left"> {{ props.item.course.name }} </td>
       <td class="text-xs-left">
         <v-icon small class="mr-2" @click="editItem(props.item)">edit</v-icon>
         <v-icon small @click="deleteItem(props.item)">delete</v-icon>

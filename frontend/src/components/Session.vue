@@ -39,6 +39,8 @@ export default {
         { text: "Código", value: "code", align: "left" },
         { text: "Nome", value: "name" },
         { text: "CPF", value: "cpf" },
+        { text: "E-mail", value: "email" },
+        { text: "Telefone", value: "phone" },
         { text: "Curso", value: "course" },
         { text: "Ações", value: "actions", sortable: false, align: "left" }
       ];
