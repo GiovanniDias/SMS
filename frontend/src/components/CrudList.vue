@@ -7,7 +7,7 @@
             <v-toolbar-title>{{ session }}</v-toolbar-title>
             <v-divider class="mx-3" inset vertical></v-divider>
             <v-spacer></v-spacer>
-            <v-dialog v-model="dialog" max-width="500px">
+            <v-dialog v-model="dialog" max-width="600px">
               <v-btn slot="activator" color="primary" dark class="mb-2">Adicionar</v-btn>
               <v-card>
                 <v-card-title>
@@ -15,38 +15,29 @@
                 </v-card-title>
 
                 <v-card-text>
-                  <v-container grid-list-md>
-                    <v-layout wrap>
-                      <v-flex xs12 sm6 md4>
-                        <v-text-field v-model="editedItem.name" label="Dessert name"></v-text-field>
-                      </v-flex>
-                      <v-flex xs12 sm6 md4>
-                        <v-text-field v-model="editedItem.calories" label="Calories"></v-text-field>
-                      </v-flex>
-                      <v-flex xs12 sm6 md4>
-                        <v-text-field v-model="editedItem.fat" label="Fat (g)"></v-text-field>
-                      </v-flex>
-                      <v-flex xs12 sm6 md4>
-                        <v-text-field v-model="editedItem.carbs" label="Carbs (g)"></v-text-field>
-                      </v-flex>
-                      <v-flex xs12 sm6 md4>
-                        <v-text-field v-model="editedItem.protein" label="Protein (g)"></v-text-field>
-                      </v-flex>
-                    </v-layout>
-                  </v-container>
+                  <course-fields v-if="session=='Cursos'" :item="editedItem"></course-fields>
+                  <student-fields v-else :item="editedItem"></student-fields>
                 </v-card-text>
 
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn color="blue darken-1" flat @click.native="close">Cancelar</v-btn>
-                  <v-btn color="blue darken-1" flat @click.native="save">Salvar</v-btn>
+                  <v-btn color="error" outline @click.native="close">Cancelar</v-btn>
+                  <v-btn color="success" outline @click.native="save">Salvar</v-btn>
                 </v-card-actions>
               </v-card>
             </v-dialog>
           </v-toolbar>
 
-          <course-list v-if="session=='Cursos'" :items="items" :headers="headers"></course-list>
-          <student-list v-else :items="items" :headers="headers"></student-list>
+          <course-list
+            v-if="session=='Cursos'"
+            :items="items" :headers="headers"
+            :editItem="editItem" :deleteItem="deleteItem"
+          ></course-list>
+          <student-list 
+            v-else
+            :items="items" :headers="headers"
+            :editItem="editItem" :deleteItem="deleteItem"
+          ></student-list>
 
         </v-flex>
       </v-layout>
@@ -57,44 +48,58 @@
 <script>
 import CourseList from "./CourseList";
 import StudentList from "./StudentList";
+import CourseFields from "./CourseFields";
+import StudentFields from "./StudentFields";
 export default {
-  components: { CourseList, StudentList },
-  props: ["session", "items", "headers"],
+  components: {
+    CourseList,
+    StudentList,
+    CourseFields,
+    StudentFields
+  },
+  props: ["session", "headers", "items"],
   data: () => ({
     dialog: false,
     editedIndex: -1,
-    editedItem: {
-      name: "",
-      calories: 0,
-      fat: 0,
-      carbs: 0,
-      protein: 0
-    },
-    defaultItem: {
-      name: "",
-      calories: 0,
-      fat: 0,
-      carbs: 0,
-      protein: 0
-    }
+    editedItem: {},
+    defaultItem: {}
   }),
-
-  computed: {
-    formTitle() {
-      return this.editedIndex === -1 ? "New Item" : "Edit Item";
+  created() {
+    if (this.session == "Cursos") {
+      this.editedItem = { code: "", name: "", hourly_load: 0 };
+      this.defaultItem = { code: "", name: "", hourly_load: 0 };
+    } else {
+      this.editedItem = {
+        code: "", name: "", cpf: "",
+        email: "", phone: "",
+        cep: "", address: "",
+        number: "", complement: "",
+        course: { name: "" }
+      };
+      this.defaultItem = {
+        code: "", name: "", cpf: "",
+        email: "", phone: "",
+        cep: "", address: "",
+        number: "", complement: "",
+        course: { name: "" }
+      };
     }
   },
-
+  computed: {
+    formTitle() {
+      if (this.session == "Cursos") {
+        return this.editedIndex === -1 ? "Novo Curso" : "Editar Curso";
+      }
+      if (this.session == "Alunos") {
+        return this.editedIndex === -1 ? "Novo Aluno" : "Editar Aluno";
+      }
+    }
+  },
   watch: {
     dialog(val) {
       val || this.close();
     }
   },
-
-  created() {
-    console.log(this.session, this.items, this.headers)
-  },
-
   methods: {
     editItem(item) {
       this.editedIndex = this.items.indexOf(item);
@@ -104,10 +109,9 @@ export default {
 
     deleteItem(item) {
       const index = this.items.indexOf(item);
-      confirm("Are you sure you want to delete this item?") &&
+      confirm("Tem certeza que deseja remover este item?") &&
         this.items.splice(index, 1);
     },
-
     close() {
       this.dialog = false;
       setTimeout(() => {
@@ -115,7 +119,6 @@ export default {
         this.editedIndex = -1;
       }, 300);
     },
-
     save() {
       if (this.editedIndex > -1) {
         Object.assign(this.items[this.editedIndex], this.editedItem);

@@ -54,7 +54,6 @@ export default {
         method: "get",
         url: "http://localhost:8000/api/courses/"
       }).then(function(response) {
-        console.log(response.data);
         self.items = response.data;
       });
     },
@@ -64,7 +63,6 @@ export default {
         method: "get",
         url: "http://localhost:8000/api/students/"
       }).then(function(response) {
-        console.log(response.data);
         self.items = response.data;
       });
     }
