@@ -12,12 +12,6 @@
 
 <script>
 export default {
-  data() {
-    return {
-      outfit1: false,
-      menu_titles: ['Cursos', 'Alunos']
-    };
-  },
   methods:{
     goHome(){
       this.$router.push({name: 'Home'})
