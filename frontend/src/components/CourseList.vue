@@ -20,7 +20,7 @@
 <script>
 export default {
   name: "CourseList",
-  props: ["headers", "items"]
+  props: ["headers", "items", "editItem", "deleteItem"],
 };
 </script>
 

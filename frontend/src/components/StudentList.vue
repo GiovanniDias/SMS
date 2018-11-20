@@ -22,6 +22,6 @@
 <script>
 export default {
   name: "StudentList",
-  props: ["headers", "items"]
+  props: ["headers", "items", "editItem", "deleteItem"]
 };
 </script>
