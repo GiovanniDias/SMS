@@ -45,21 +45,9 @@
             </v-dialog>
           </v-toolbar>
 
-          <v-data-table
-            :headers="headers"
-            :items="items"
-            class="elevation-2"
-          >
-            <template slot="items" slot-scope="props">
-              <td class="text-xs-left"
-                v-for="(attribute, a) of props.item" :key="a"
-              > {{ attribute }} </td>
-              <td class="text-xs-left">
-                <v-icon small class="mr-2" @click="editItem(props.item)">edit</v-icon>
-                <v-icon small @click="deleteItem(props.item)">delete</v-icon>
-              </td>
-            </template>
-          </v-data-table>
+          <course-list v-if="session=='Cursos'" :items="items" :headers="headers"></course-list>
+          <student-list v-else :items="items" :headers="headers"></student-list>
+
         </v-flex>
       </v-layout>
     </v-container>
@@ -67,75 +55,75 @@
 </template>
 
 <script>
-  export default {
-    props: ['session', 'items', 'headers'],
-    data: () => ({
-      dialog: false,
-      editedIndex: -1,
-      editedItem: {
-        name: '',
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0
-      },
-      defaultItem: {
-        name: '',
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0
-      }
-    }),
+import CourseList from "./CourseList";
+import StudentList from "./StudentList";
+export default {
+  components: { CourseList, StudentList },
+  props: ["session", "items", "headers"],
+  data: () => ({
+    dialog: false,
+    editedIndex: -1,
+    editedItem: {
+      name: "",
+      calories: 0,
+      fat: 0,
+      carbs: 0,
+      protein: 0
+    },
+    defaultItem: {
+      name: "",
+      calories: 0,
+      fat: 0,
+      carbs: 0,
+      protein: 0
+    }
+  }),
 
-    computed: {
-      formTitle () {
-        return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
-      }
+  computed: {
+    formTitle() {
+      return this.editedIndex === -1 ? "New Item" : "Edit Item";
+    }
+  },
+
+  watch: {
+    dialog(val) {
+      val || this.close();
+    }
+  },
+
+  created() {
+    console.log(this.session, this.items, this.headers)
+  },
+
+  methods: {
+    editItem(item) {
+      this.editedIndex = this.items.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialog = true;
     },
 
-    watch: {
-      dialog (val) {
-        val || this.close()
-      }
+    deleteItem(item) {
+      const index = this.items.indexOf(item);
+      confirm("Are you sure you want to delete this item?") &&
+        this.items.splice(index, 1);
     },
 
-    created () {
-      // this.initialize()
+    close() {
+      this.dialog = false;
+      setTimeout(() => {
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      }, 300);
     },
 
-    methods: {
-      // initialize () {
-      //
-      // },
-
-      editItem (item) {
-        this.editedIndex = this.items.indexOf(item)
-        this.editedItem = Object.assign({}, item)
-        this.dialog = true
-      },
-
-      deleteItem (item) {
-        const index = this.items.indexOf(item)
-        confirm('Are you sure you want to delete this item?') && this.items.splice(index, 1)
-      },
-
-      close () {
-        this.dialog = false
-        setTimeout(() => {
-          this.editedItem = Object.assign({}, this.defaultItem)
-          this.editedIndex = -1
-        }, 300)
-      },
-
-      save () {
-        if (this.editedIndex > -1) {
-          Object.assign(this.items[this.editedIndex], this.editedItem)
-        } else {
-          this.items.push(this.editedItem)
-        }
-        this.close()
+    save() {
+      if (this.editedIndex > -1) {
+        Object.assign(this.items[this.editedIndex], this.editedItem);
+      } else {
+        this.items.push(this.editedItem);
       }
+      this.close();
     }
   }
+};
 </script>
